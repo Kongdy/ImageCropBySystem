@@ -214,7 +214,17 @@ FileProvider.getUriForFile(context, DEFAULT_AUTHORITIES, imageFile)
 ```
 
 
-使用方法
+使用方法<br/>
+使用库之前在项目的主build.gradle里面加入下面代码
+
+```xml
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+
+```
+
 图片裁剪库
 ```java
 compile 'com.github.Kongdy.ImageCropBySystem:croplib:V1.0'
@@ -240,7 +250,7 @@ compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:V1.0'
 ```
 
 
-本文代码:https://github.com/Kongdy/ImageCropBySystem
-个人github地址:https://github.com/Kongdy
-个人掘金主页:https://juejin.im/user/595a64def265da6c2153545b
-csdn主页:http://blog.csdn.net/qq_24859309
+本文代码:https://github.com/Kongdy/ImageCropBySystem<br/>
+个人github地址:https://github.com/Kongdy<br/>
+个人掘金主页:https://juejin.im/user/595a64def265da6c2153545b<br/>
+csdn主页:http://blog.csdn.net/qq_24859309<br/>

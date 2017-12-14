@@ -214,6 +214,32 @@ FileProvider.getUriForFile(context, DEFAULT_AUTHORITIES, imageFile)
 ```
 
 
+使用方法
+图片裁剪库
+```java
+compile 'com.github.Kongdy.ImageCropBySystem:croplib:V1.0'
+```
+权限封装库
+```java
+compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:V1.0'
+```
+
+<h1>使用图片裁剪库注意事项</h1>
+将以下代码加入您的AndroidManifest中
+
+```xml
+  <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.common.MyImageFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+```
+
+
 本文代码:https://github.com/Kongdy/ImageCropBySystem
 个人github地址:https://github.com/Kongdy
 个人掘金主页:https://juejin.im/user/595a64def265da6c2153545b

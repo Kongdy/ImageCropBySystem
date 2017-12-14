@@ -53,7 +53,6 @@ public class PickImageWidget {
     private boolean isCancel;
 
     private AppPermissionIml appPermissionIml;
-    private String cancelFlagStr;
 
     public PickImageWidget(Context context, IconPickListener iconPickListener) {
         this.context = context;
@@ -65,7 +64,33 @@ public class PickImageWidget {
         show("", removeBitmapFlag);
     }
 
-    public void show(String cancelFlagStr, boolean removeBitmapFlag) {
+    public void show(final String cancelFlagStr, final boolean removeBitmapFlag) {
+        appPermissionIml.needPermission(new AppPermissionIml.AppPermissionListener() {
+            @Override
+            public void onAllGranted() {
+                showPickDialog(cancelFlagStr,removeBitmapFlag);
+            }
+
+            @Override
+            public void onHaveDenied(List<String> deniedPermissions) {
+            }
+
+            @Override
+            public void onNeverAsk(List<String> neverAskPermissions) {
+            }
+
+            @Override
+            public void onJiuShiBuGeiQuanXian() {
+                if (null != iconChooseSheetDialog && iconChooseSheetDialog.isShowing())
+                    iconChooseSheetDialog.dismiss();
+            }
+        }, Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+    }
+
+    private void showPickDialog(String cancelFlagStr, boolean removeBitmapFlag)
+    {
         if (null == cancelFlagStr) {
             cancelFlagStr = "";
         }
@@ -100,26 +125,7 @@ public class PickImageWidget {
             public void onClick(View v) {
                 isCancel = false;
                 iconChooseSheetDialog.dismiss();
-                appPermissionIml.needPermission(new AppPermissionIml.AppPermissionListener() {
-                    @Override
-                    public void onAllGranted() {
-                        doPhoto();
-                    }
-
-                    @Override
-                    public void onHaveDenied(List<String> deniedPermissions) {
-                    }
-
-                    @Override
-                    public void onNeverAsk(List<String> neverAskPermissions) {
-                    }
-
-                    @Override
-                    public void onJiuShiBuGeiQuanXian() {
-                        if (null != iconChooseSheetDialog && iconChooseSheetDialog.isShowing())
-                            iconChooseSheetDialog.dismiss();
-                    }
-                }, Manifest.permission.CAMERA);
+                doPhoto();
             }
         });
         tv_from_gallery.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +158,6 @@ public class PickImageWidget {
         });
 
         iconChooseSheetDialog.show();
-
-        this.cancelFlagStr = cancelFlagStr;
     }
 
     public void show(String cancelFlagStr) {
@@ -164,11 +168,11 @@ public class PickImageWidget {
         show("");
     }
 
+    /**
+     * 打开图库
+     */
     private void openGallery() {
-        String imageName = createImageName("");
-        imageFile = new File(Environment.getExternalStorageDirectory(), context.getPackageName() + File.separator + "icon" + imageName + ".jpg");
-        if (!imageFile.exists())
-            imageFile.getParentFile().mkdirs();
+        initImageFile();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         ((Activity) context).startActivityForResult(intent, REQUEST_PICK);
@@ -178,6 +182,16 @@ public class PickImageWidget {
      * 开启摄像头
      */
     private void doPhoto() {
+        initImageFile();
+        Uri uri = FileProvider.getUriForFile(context, DEFAULT_AUTHORITIES, imageFile);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ((Activity) context).startActivityForResult(intent, REQUEST_PICK);
+    }
+
+    private void initImageFile()
+    {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             Toast.makeText(context, "未找到sd卡", Toast.LENGTH_SHORT).show();
             return;
@@ -186,11 +200,6 @@ public class PickImageWidget {
         imageFile = new File(Environment.getExternalStorageDirectory(), context.getPackageName() + File.separator + "icon" + imageName + ".jpg");
         if (!imageFile.exists())
             imageFile.getParentFile().mkdirs();
-        Uri uri = FileProvider.getUriForFile(context, DEFAULT_AUTHORITIES, imageFile);
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        ((Activity) context).startActivityForResult(intent, REQUEST_PICK);
     }
 
     public void setOnCancelListener(OnCancelListener onCancelListener) {
@@ -233,8 +242,9 @@ public class PickImageWidget {
 
     private void beginCropDirect(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
+        //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         //可以选择图片类型，如果是*表明所有类型的图片
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
         intent.setDataAndType(uri, "image/*");
         // 下面这个crop = true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
@@ -242,8 +252,8 @@ public class PickImageWidget {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
+        intent.putExtra("outputX", 500);
+        intent.putExtra("outputY", 500);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         //是否将数据保留在Bitmap中返回,true返回bitmap，false返回uri
         intent.putExtra("return-data", false);

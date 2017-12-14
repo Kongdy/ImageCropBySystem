@@ -80,6 +80,7 @@ public class AppPermissionIml {
                     });
             if (haveWriteSetting) {
                 requestWriteSettings();
+                return;
             }
             if (!deniedPermission.isEmpty()) {
                 String[] tempArray = new String[deniedPermission.size()];

@@ -249,6 +249,10 @@ compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:V1.0'
         </provider>
 ```
 
+<h2>
+    另外，使用图片裁剪库之后，可以不再引用权限库，
+    图片裁剪库已经依赖了权限封装库
+</h2>
 
 本文代码:https://github.com/Kongdy/ImageCropBySystem<br/>
 个人github地址:https://github.com/Kongdy<br/>

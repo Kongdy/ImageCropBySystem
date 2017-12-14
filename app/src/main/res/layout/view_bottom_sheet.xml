@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_white_trans_gray_small_radius"
+            android:gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:padding="@dimen/dp_15"
+            android:text="@string/camera"
+            android:textColor="@color/colorPrimary" />
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_from_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_camera"
+            android:background="@drawable/selector_white_trans_gray_small_radius"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_5"
+            android:padding="@dimen/dp_15"
+            android:textSize="@dimen/sp_18"
+            android:text="@string/gallery"
+            android:textColor="@color/colorPrimary"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_remove_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_from_gallery"
+            android:background="@drawable/selector_white_trans_gray_small_radius"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_5"
+            android:padding="@dimen/dp_15"
+            android:textSize="@dimen/sp_18"
+            android:text="@string/remove_photo"
+            android:visibility="gone"
+            android:textColor="@color/colorPrimary"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_below="@id/rl_content"
+        android:id="@+id/tv_bottom_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white_trans_gray_small_radius"
+        android:text="@string/cancel"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/sp_18"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_15"
+        android:padding="@dimen/dp_15"/>
+
+</RelativeLayout>

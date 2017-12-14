@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ImageCropBySystem</string>
-    
+
     <string name="choose_image">选择图片</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>

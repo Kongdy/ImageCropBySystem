@@ -254,6 +254,52 @@ compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:V1.0'
     图片裁剪库已经依赖了权限封装库
 </h2>
 
+<h1>
+    使用方法
+</h1>
+<h3>
+    图片选择
+</h3>
+
+```java
+// 先实例化出PickImageWidget
+ pickWidget = PickImageWidget(this,this)
+
+    ...
+ //  在onActivityResult中集成
+ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            pickWidget.activityResult(requestCode, resultCode, data)
+        }
+ ...
+ // 直接调show方法打开窗口
+ pickWidget.show()
+```
+
+<h3>
+    权限封装
+</h3>
+
+```java
+    // 先初始化AppPermissionIml
+     permissionUtils = AppPermissionIml(this)
+     ...
+     // 在onRequestPermissionsResult中集成
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+         permissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults)
+     }
+     ...
+     // 在onActivityResult中集成
+   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         super.onActivityResult(requestCode, resultCode, data)
+         permissionUtils.onActivityResult(requestCode, resultCode, data)
+     }
+     // 使用直接调用needPermission方法，后面权限数量可以一直扩展
+       permissionUtils.needPermission(this,
+                     Manifest.permission.CAMERA)
+```
+
 本文代码:https://github.com/Kongdy/ImageCropBySystem<br/>
 个人github地址:https://github.com/Kongdy<br/>
 个人掘金主页:https://juejin.im/user/595a64def265da6c2153545b<br/>

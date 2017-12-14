@@ -58,6 +58,7 @@ public class PickImageWidget {
         this.context = context;
         this.iconPickListener = iconPickListener;
         appPermissionIml = new AppPermissionIml((Activity) context);
+
     }
 
     public void show(boolean removeBitmapFlag) {

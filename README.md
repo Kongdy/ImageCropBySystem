@@ -227,11 +227,11 @@ FileProvider.getUriForFile(context, DEFAULT_AUTHORITIES, imageFile)
 
 图片裁剪库
 ```java
-compile 'com.github.Kongdy.ImageCropBySystem:croplib:V1.0'
+compile 'com.github.Kongdy.ImageCropBySystem:croplib:v1.0.1'
 ```
 权限封装库
 ```java
-compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:V1.0'
+compile 'com.github.Kongdy.ImageCropBySystem:permissionlib:v1.0.1'
 ```
 
 <h1>使用图片裁剪库注意事项</h1>
